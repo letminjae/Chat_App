@@ -6,6 +6,7 @@ const Main = styled.div`
   background-color: #ddddf7;
   padding: 10px;
   height: calc(100% - 50px - 50px);
+  overflow: scroll;
 `
 
 function Messages() {
