@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Chat from '../components/Chat'
+import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 
 const Main = styled.div`
@@ -24,7 +24,7 @@ function Home() {
     <Main>
       <Container>
         <Sidebar />
-        <Chat />
+        <Header />
       </Container>
     </Main>
   )
