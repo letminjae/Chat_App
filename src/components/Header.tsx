@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import Cam from '../image/cam.png'
 import Add from '../image/add.png'
 import More from '../image/more.png'
+import Messages from './Messages'
+import Input from './Input'
 
 const Main = styled.div`
   flex: 2;
@@ -43,6 +45,10 @@ function Header() {
           <img src={More} alt='More' />
         </ChatIcons>
       </ChatInfo>
+
+      <Messages />
+
+      <Input />
     </Main>
   )
 }
