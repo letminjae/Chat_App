@@ -5,7 +5,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, storage, db } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   background-color: #a7bcff;
@@ -77,7 +77,7 @@ const Title = styled.span`
 function Register() {
   const [err, setErr] = useState(false);
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: any) => {
     setLoading(true);
@@ -96,12 +96,12 @@ function Register() {
       await uploadBytesResumable(storageRef, file).then(() => {
         getDownloadURL(storageRef).then(async (downloadURL) => {
           try {
-            //Update profile
+            //Auth 생성
             await updateProfile(res.user, {
               displayName,
               photoURL: downloadURL,
             });
-            //create user on firestore
+            //유저 정보 DB
             await setDoc(doc(db, "users", res.user.uid), {
               uid: res.user.uid,
               displayName,
@@ -109,9 +109,9 @@ function Register() {
               photoURL: downloadURL,
             });
 
-            //create empty user chats on firestore
+            //회원가입한 유저가 다른 유저와 채팅한 목록 DB
             await setDoc(doc(db, "userChats", res.user.uid), {});
-            history.push("/");
+            navigate("/");
           } catch (err) {
             console.log(err);
             setErr(true);
@@ -120,7 +120,9 @@ function Register() {
         });
       });
     } catch (err) {
+      console.log(err)
       setErr(true);
+      setLoading(false);
     }
   };
 
@@ -133,7 +135,7 @@ function Register() {
           <input required type="text" placeholder="Display Name" />
           <input required type="email" placeholder="Email" />
           <input required type="pasword" placeholder="Password" />
-          <input required style={{ display: "none" }} type="file" id="file" />
+          <input style={{ display: "none" }} type="file" id="file" />
           <label htmlFor="file">
             <img src={Add} alt="Add" />
             <span>프로필 사진 등록하기</span>

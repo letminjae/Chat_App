@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Add from "../image/addAvatar.png"
 
@@ -68,7 +69,7 @@ function Login() {
           <input type="pasword" placeholder="Password" />
           <button>Sign In</button>
         </form>
-        <p>회원이 아니신가요? Register</p>
+        <p>회원이 아니신가요? <Link to="/register">Register</Link></p>
       </Wrapper>
     </Container>
   );

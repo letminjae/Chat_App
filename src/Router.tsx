@@ -1,5 +1,5 @@
 // import { useContext } from "react";
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route, Link, Routes } from "react-router-dom";
 // import { AuthContext } from "./context/AuthContext";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -18,19 +18,13 @@ function Router() {
 
   return (
     <BrowserRouter>
-      <Switch>
+      <Routes>
         <Route path="/">
-          {/* <ProtectedRoute> */}
-            <Home />
-          {/* </ProtectedRoute> */}
+          <Route index element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
         </Route>
-        <Route path="/:login">
-          <Login />
-        </Route>
-        <Route path="/:register">
-          <Register />
-        </Route>
-      </Switch>
+      </Routes>
     </BrowserRouter>
   );
 }
