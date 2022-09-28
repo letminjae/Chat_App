@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import Add from "../image/addAvatar.png"
+import Add from "../image/addAvatar.png";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, storage, db } from "../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
+import { Link, useHistory } from "react-router-dom";
 
 const Container = styled.div`
   background-color: #a7bcff;
@@ -26,8 +31,8 @@ const Wrapper = styled.div`
       padding: 15px;
       border: none;
       border-bottom: 1px solid #a7bcff;
-      &::placeholder{
-        color: rgb(175,175,175)
+      &::placeholder {
+        color: rgb(175, 175, 175);
       }
     }
     button {
@@ -50,7 +55,7 @@ const Wrapper = styled.div`
     justify-content: center;
     gap: 10px;
     font-size: 0.75em;
-    color:#8da4f1;
+    color: #8da4f1;
     cursor: pointer;
     img {
       width: 32px;
@@ -70,23 +75,76 @@ const Title = styled.span`
 `;
 
 function Register() {
+  const [err, setErr] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+
+  const handleSubmit = async (event: any) => {
+    setLoading(true);
+    event.preventDefault();
+    const displayName = event.target[0].value;
+    const email = event.target[1].value;
+    const password = event.target[2].value;
+    const file = event.target[3].files[0];
+
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+
+      const date = new Date().getTime();
+      const storageRef = ref(storage, `${displayName + date}`);
+
+      await uploadBytesResumable(storageRef, file).then(() => {
+        getDownloadURL(storageRef).then(async (downloadURL) => {
+          try {
+            //Update profile
+            await updateProfile(res.user, {
+              displayName,
+              photoURL: downloadURL,
+            });
+            //create user on firestore
+            await setDoc(doc(db, "users", res.user.uid), {
+              uid: res.user.uid,
+              displayName,
+              email,
+              photoURL: downloadURL,
+            });
+
+            //create empty user chats on firestore
+            await setDoc(doc(db, "userChats", res.user.uid), {});
+            history.push("/");
+          } catch (err) {
+            console.log(err);
+            setErr(true);
+            setLoading(false);
+          }
+        });
+      });
+    } catch (err) {
+      setErr(true);
+    }
+  };
+
   return (
     <Container>
       <Wrapper>
         <Logo>Let's Chat!</Logo>
         <Title>회원가입</Title>
-        <form>
-          <input type="text" placeholder="Nickname" />
-          <input type="email" placeholder="Email" />
-          <input type="pasword" placeholder="Password" />
-          <input style={{display: "none"}} type="file" id="file"/>
+        <form onSubmit={handleSubmit}>
+          <input required type="text" placeholder="Display Name" />
+          <input required type="email" placeholder="Email" />
+          <input required type="pasword" placeholder="Password" />
+          <input required style={{ display: "none" }} type="file" id="file" />
           <label htmlFor="file">
-            <img src={Add} alt="Add"/>
+            <img src={Add} alt="Add" />
             <span>프로필 사진 등록하기</span>
           </label>
-          <button>Sign Up</button>
+          <button disabled={loading}>Sign Up</button>
+          {loading && "이미지를 업로드하고 있습니다. 잠시만 기다려주세요..."}
+          {err && <span>로그인 에러!</span>}
         </form>
-        <p>이미 회원이신가요? Login</p>
+        <p>
+          이미 회원이신가요? <Link to="/login">Login</Link>
+        </p>
       </Wrapper>
     </Container>
   );

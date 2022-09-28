@@ -7,6 +7,11 @@ const Main = styled.div`
   padding: 10px;
   height: calc(100% - 50px - 50px);
   overflow: scroll;
+  -ms-overflow-style: none; // IE and Edge
+  scrollbar-width: none; // FireFox
+  &::-webkit-scrollbar {
+    display: none; // Chrome, Safari, Opera
+  }
 `
 
 function Messages() {

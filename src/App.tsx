@@ -1,6 +1,6 @@
 import React from "react";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import Home from "./pages/Home";
+import Router from "./Router";
 import { mainTheme } from "./theme";
 
 const GlobalStyle = createGlobalStyle`
@@ -72,7 +72,7 @@ function App() {
   return (
     <ThemeProvider theme={mainTheme}>
       <GlobalStyle />
-      <Home />
+      <Router />
     </ThemeProvider>
   );
 }
