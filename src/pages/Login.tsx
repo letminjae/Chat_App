@@ -65,8 +65,8 @@ function Login() {
 
   const handleSubmit = async (event : any) => {
     event.preventDefault();
-    const email = event.target[0].value();
-    const password = event.target[1].value();
+    const email = event.target[0].value;
+    const password = event.target[1].value;
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -83,7 +83,7 @@ function Login() {
         <Title>로그인</Title>
         <form onSubmit={handleSubmit}>
           <input type="email" placeholder="Email" />
-          <input type="pasword" placeholder="Password" />
+          <input type="password" placeholder="Password" />
           <button>Sign In</button>
           {err && <span>오류가 발생했습니다!</span>}
         </form>

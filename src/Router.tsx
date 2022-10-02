@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { BrowserRouter, Route, Link, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -10,9 +10,8 @@ function Router() {
 
   const ProtectedRoute = ({ children }: { children: any }) => {
     if (!currentUser) {
-      return <Link to="/login" />;
+      return <Navigate to="/login" />;
     }
-
     return children;
   };
 

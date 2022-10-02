@@ -134,7 +134,7 @@ function Register() {
         <form onSubmit={handleSubmit}>
           <input required type="text" placeholder="Display Name" />
           <input required type="email" placeholder="Email" />
-          <input required type="pasword" placeholder="Password" />
+          <input required type="password" placeholder="Password" />
           <input style={{ display: "none" }} type="file" id="file" />
           <label htmlFor="file">
             <img src={Add} alt="Add" />

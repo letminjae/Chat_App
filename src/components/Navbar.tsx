@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import { AuthContext } from "../context/AuthContext";
 
 const Main = styled.div`
   display: flex;
@@ -39,15 +40,17 @@ const User = styled.div`
 `;
 
 function Navbar() {
+  const currentUser = useContext(AuthContext);
+
+  console.log(currentUser);
+  console.log(currentUser.photoURL, currentUser.displayName);
+
   return (
     <Main>
       <Logo>Let's Chat!</Logo>
       <User>
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRin0ewWGyXT2b0UEJZOYSpfjcQa4AxGvWbCA&usqp=CAU"
-          alt="Profile"
-        />
-        <span>참인죄</span>
+        <img src={currentUser.photoURL} alt="Profile" />
+        <span>{currentUser.displayName}</span>
         <button onClick={() => signOut(auth)}>logout</button>
       </User>
     </Main>
