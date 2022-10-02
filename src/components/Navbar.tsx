@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 const Main = styled.div`
   display: flex;
@@ -46,7 +48,7 @@ function Navbar() {
           alt="Profile"
         />
         <span>참인죄</span>
-        <button>logout</button>
+        <button onClick={() => signOut(auth)}>logout</button>
       </User>
     </Main>
   );
