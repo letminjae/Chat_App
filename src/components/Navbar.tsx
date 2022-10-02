@@ -42,9 +42,6 @@ const User = styled.div`
 function Navbar() {
   const currentUser = useContext(AuthContext);
 
-  console.log(currentUser);
-  console.log(currentUser.photoURL, currentUser.displayName);
-
   return (
     <Main>
       <Logo>Let's Chat!</Logo>
