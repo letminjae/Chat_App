@@ -1,7 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Add from "../image/addAvatar.png"
+import { auth } from "../firebase";
 
 const Container = styled.div`
   background-color: #a7bcff;
@@ -59,15 +60,32 @@ const Title = styled.span`
 `;
 
 function Login() {
+  const [err, setErr] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event : any) => {
+    event.preventDefault();
+    const email = event.target[0].value();
+    const password = event.target[1].value();
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/");
+    } catch (err) {
+      setErr(true);
+    }
+  }
+
   return (
     <Container>
       <Wrapper>
         <Logo>Let's Chat!</Logo>
         <Title>로그인</Title>
-        <form>
+        <form onSubmit={handleSubmit}>
           <input type="email" placeholder="Email" />
           <input type="pasword" placeholder="Password" />
           <button>Sign In</button>
+          {err && <span>오류가 발생했습니다!</span>}
         </form>
         <p>회원이 아니신가요? <Link to="/register">Register</Link></p>
       </Wrapper>
