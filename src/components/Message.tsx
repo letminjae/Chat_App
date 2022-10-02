@@ -1,5 +1,8 @@
 import React from "react";
+import { useContext } from "react";
 import styled from "styled-components";
+import { AuthContext } from "../context/AuthContext";
+import { ChatContext } from "../context/ChatContext";
 
 const MessageContent = styled.div`
   max-width: 80%;
@@ -52,7 +55,13 @@ const MessageInfo = styled.div`
 `;
 
 
-function Message() {
+function Message({message}:any) {
+
+  const currentUser = useContext(AuthContext);
+  const data = useContext(ChatContext);
+
+  console.log(message)
+
   return (
     <Main className="owner">
       <MessageInfo>

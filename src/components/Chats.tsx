@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { db } from "../firebase";
+import { doc, onSnapshot } from "firebase/firestore";
 import styled from "styled-components";
+import { ChatContext } from "../context/ChatContext";
 
 const Main = styled.div``;
 
@@ -34,18 +38,46 @@ const UserChatInfo = styled.div`
 `;
 
 function Chats() {
+  const [chats, setChats] = useState<any>([]);
+
+  const currentUser = useContext(AuthContext);
+  const { dispatch } = useContext(ChatContext);
+
+  useEffect(() => {
+    const getChats = () => {
+      const unsub = onSnapshot(
+        doc(db, "userChats", currentUser.uid),
+        (doc: any) => {
+          setChats(doc.data());
+        }
+      );
+
+      return () => {
+        unsub();
+      };
+    };
+
+    currentUser.uid && getChats();
+  }, [currentUser.uid]);
+
+  const handleSelect = (u :any) => {
+    dispatch({ type: "CHANGE_USER", payload: u });
+  };
+
   return (
     <Main>
-      <UserChat>
+      {Object.entries(chats)?.sort((a : any, b: any) => b[1].date - a[1].date).map((chat : any) => (
+      <UserChat key={chat[0]} onClick={() => handleSelect(chat[1].userInfo)}>
         <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRteZw652csQJlP7eaVC8S3U3q-asvP7_20SA&usqp=CAU"
-          alt="Suzy"
+          src={chat[1].userInfo.photoURL}
+          alt="Profile"
         />
         <UserChatInfo>
-          <span>수지</span>
-          <p>안녕</p>
+          <span>{chat[1].userInfo.displayName}</span>
+          <p>{chat[1].lastMessage?.text}</p>
         </UserChatInfo>
       </UserChat>
+      ))}
     </Main>
   );
 }

@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import Cam from '../image/cam.png'
 import Add from '../image/add.png'
 import More from '../image/more.png'
 import Messages from './Messages'
 import Input from './Input'
+import { ChatContext } from '../context/ChatContext'
 
 const Main = styled.div`
   flex: 2;
@@ -35,10 +36,14 @@ const ChatIcons = styled.div`
 `
 
 function Header() {
+  const dispatch = useContext(ChatContext);
+
+  console.log(dispatch);
+
   return (
     <Main>
       <ChatInfo>
-        <span>수지</span>
+        <span>{dispatch.state.user?.displayName}</span>
         <ChatIcons>
           <img src={Cam} alt='Cam' />
           <img src={Add} alt='Add' />
