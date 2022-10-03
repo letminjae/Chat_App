@@ -3,6 +3,7 @@ import { useContext } from "react";
 import styled from "styled-components";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
+import { timeForToday } from "../shared/TimeForToday";
 
 const MessageContent = styled.div`
   max-width: 80%;
@@ -60,12 +61,17 @@ function Message({ message }: any) {
 
   const ref = useRef<null | HTMLDivElement>(null);
 
+  console.log(message);
+
   useEffect(() => {
-    ref.current?.scrollIntoView({behavior:"smooth"})
+    ref.current?.scrollIntoView({ behavior: "smooth" });
   }, [message]);
 
   return (
-    <Main ref={ref} className={`${message.senderId === currentUser.uid && "owner"}`}>
+    <Main
+      ref={ref}
+      className={`${message.senderId === currentUser.uid && "owner"}`}
+    >
       <MessageInfo>
         <img
           src={
@@ -75,7 +81,7 @@ function Message({ message }: any) {
           }
           alt="Profile"
         />
-        <span>방금 전</span>
+        <span>{timeForToday(message.date.seconds)}</span>
       </MessageInfo>
       <MessageContent>
         <p>{message.text}</p>
