@@ -32,7 +32,7 @@ const Main = styled.div`
 
     ${MessageContent} {
       align-items: flex-end;
-      
+
       p {
         background-color: #8da4f1;
         color: white;
@@ -54,29 +54,28 @@ const MessageInfo = styled.div`
   }
 `;
 
-
-function Message({message}:any) {
-
+function Message({ message }: any) {
   const currentUser = useContext(AuthContext);
   const data = useContext(ChatContext);
 
-  console.log(message)
+  console.log(message);
 
   return (
-    <Main className="owner">
+    <Main className={`${message.senderId === currentUser.uid && "owner"}`}>
       <MessageInfo>
         <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRteZw652csQJlP7eaVC8S3U3q-asvP7_20SA&usqp=CAU"
+          src={
+            message.senderId === currentUser.uid
+              ? currentUser.photoURL
+              : data.state.user.photoURL
+          }
           alt="Profile"
         />
         <span>방금 전</span>
       </MessageInfo>
       <MessageContent>
-        <p>안녕</p>
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRteZw652csQJlP7eaVC8S3U3q-asvP7_20SA&usqp=CAU"
-          alt="Profile"
-        />
+        <p>{message.text}</p>
+        {message.img && <img src={message.img} alt="uploadImg" />}
       </MessageContent>
     </Main>
   );

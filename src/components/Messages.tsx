@@ -40,8 +40,8 @@ function Messages() {
   return (
     <Main>
       <Wrapper>
-        {messages.map((message) => (
-          <Message message={message} />
+        {messages.map((message : any) => (
+          <Message message={message} key={message.id} />
         ))}
       </Wrapper>
     </Main>

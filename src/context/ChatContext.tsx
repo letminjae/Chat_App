@@ -2,7 +2,6 @@ import React, {
   createContext,
   useContext,
   useReducer,
-  Dispatch
 } from "react";
 import { AuthContext } from "./AuthContext";
 

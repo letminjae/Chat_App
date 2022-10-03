@@ -36,14 +36,12 @@ const ChatIcons = styled.div`
 `
 
 function Header() {
-  const dispatch = useContext(ChatContext);
-
-  console.log(dispatch);
+  const data = useContext(ChatContext);
 
   return (
     <Main>
       <ChatInfo>
-        <span>{dispatch.state.user?.displayName}</span>
+        <span>{data.state.user?.displayName}</span>
         <ChatIcons>
           <img src={Cam} alt='Cam' />
           <img src={Add} alt='Add' />
