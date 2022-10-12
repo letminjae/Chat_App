@@ -13,11 +13,27 @@ npm start
 2022/09/22 ~ 2022/10/04 (13일, 개인 프로젝트)
 
 ## 핵심기능 및 시연 영상
-회원가입
-로그인
-유저 검색
-리얼타임 채팅
-채팅 중 이미지 업로드
+
+- 회원가입
+<br />
+<img src="https://user-images.githubusercontent.com/96935557/195411063-382efc20-cab0-43dd-afc4-ba7c3278d802.gif" width="80%">
+
+- 로그인
+<br />
+<img src="https://user-images.githubusercontent.com/96935557/195411132-91752f9d-37b7-4d51-b071-ce43b573c984.gif" width="80%">
+
+
+- 유저 검색
+<br />
+<img src="https://user-images.githubusercontent.com/96935557/195410972-dc3208f7-a5fe-48de-a4a8-bcf1e88ecaa6.gif" width="80%">
+
+- 리얼타임 채팅
+<br />
+<img src="https://user-images.githubusercontent.com/96935557/195411108-24b56bd7-4d9e-4774-a87e-6fdfe23e1f8e.gif" width="80%">
+
+- 채팅 중 이미지 업로드
+<br />
+<img src="https://user-images.githubusercontent.com/96935557/195410991-dd84789a-76f9-4612-8c10-a66ba171f3a1.gif" width="80%">
 
 ## 기술스택
 - FrontEnd Stack : `Typescript`, `React(+context API)`, `Styled-components`
